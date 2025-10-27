@@ -1,0 +1,59 @@
+.tree-container {
+  flex: 1;
+  position: relative;
+  background-color: var(--bg-primary);
+}
+
+.dark .tree-container {
+  background-color: var(--bg-secondary);
+}
+
+/* React Flow Overrides */
+.react-flow {
+  background-color: var(--bg-primary);
+}
+
+.dark .react-flow {
+  background-color: var(--bg-secondary);
+}
+
+.react-flow__node {
+  cursor: pointer;
+}
+
+.react-flow__node:hover {
+  opacity: 0.9;
+}
+
+/* React Flow Controls */
+.react-flow__controls {
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--border-color);
+}
+
+.react-flow__controls-button {
+  background-color: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.react-flow__controls-button:hover {
+  background-color: var(--bg-tertiary);
+}
+
+.react-flow__controls-button svg {
+  fill: var(--text-primary);
+}
+
+/* Background Pattern */
+.react-flow__background {
+  background-color: var(--bg-primary);
+}
+
+.dark .react-flow__background {
+  background-color: var(--bg-secondary);
+}
+
+.react-flow__background-pattern {
+  stroke: var(--border-color);
+}
+
