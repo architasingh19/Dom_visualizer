@@ -36,13 +36,13 @@ Make sure you have these installed:
 
 ### Core Features
 
-** JSON Input & Validation**
+**JSON Input & Validation**
 - Paste or type any JSON data
 - Real-time validation with helpful error messages
 - Load sample JSON with one click
 - Clear button to start fresh
 
-** Interactive Tree Visualization**
+**Interactive Tree Visualization**
 - Beautiful hierarchical tree layout
 - Color-coded nodes by type:
   -  Purple for Objects
@@ -51,31 +51,24 @@ Make sure you have these installed:
 - Smooth animations and connections between nodes
 - Hover over nodes to see full paths and values
 
-** Smart Search**
+**Smart Search**
 - Search by JSON path (e.g., `$.user.name` or `$.items[0]`)
 - Highlights matching nodes in pink
 - Auto-pans to center the result
 - Shows "Match found" or "No match found" feedback
 
-** Interactive Controls**
+**Interactive Controls**
 - Zoom in/out with mouse wheel or buttons
 - Pan by dragging the canvas
 - Fit entire tree to view with one click
 - Click any node to copy its path to clipboard
 
-** Dark/Light Mode**
+**Dark/Light Mode**
 - Beautiful toggle switch in the header
 - Smooth theme transitions
 - Optimized colors for both modes
 
-** Copy JSON Paths**
+**Copy JSON Paths**
 - Click any node to copy its JSON path
 - Instant clipboard access
 - Visual confirmation message
-
-** Beautiful UI/UX**
-
-- Modern, clean design
-- Responsive layout (works on mobile, tablet, desktop)
-- Color legend for easy reference
-- Helpful empty state with instructions
