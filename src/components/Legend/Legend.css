@@ -35,3 +35,24 @@
   border-top: 1px solid var(--border-color);
 }
 
+/* Responsive Design for Mobile */
+@media (max-width: 640px) {
+  .legend-panel {
+    padding: 0.75rem;
+    max-width: 100%;
+  }
+  
+  .legend-item {
+    font-size: 0.7rem;
+  }
+  
+  .legend-color {
+    width: 14px;
+    height: 14px;
+  }
+  
+  .info-text {
+    font-size: 0.7rem;
+  }
+}
+

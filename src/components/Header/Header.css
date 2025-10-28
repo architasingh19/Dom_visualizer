@@ -1,4 +1,9 @@
 .app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -6,6 +11,7 @@
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-color);
   box-shadow: var(--shadow);
+  z-index: 1000;
 }
 
 .app-header h1 {
@@ -70,6 +76,10 @@
 
   .app-header h1 {
     font-size: 1.25rem;
+  }
+  
+  .mode-label {
+    display: none;
   }
 }
 
