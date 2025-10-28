@@ -14,7 +14,7 @@ Make sure you have these installed:
 
 1. **Clone the repository**
    ```bash
-   git clone <your-repository-url>
+   git clone <repo-url>
    cd dom_visualizer
    ```
 
