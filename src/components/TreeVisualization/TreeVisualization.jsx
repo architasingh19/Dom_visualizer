@@ -5,7 +5,7 @@ import Legend from '../Legend/Legend';
 import EmptyState from '../EmptyState/EmptyState';
 import TreeNode from '../TreeNode/TreeNode';
 import './TreeVisualization.css';
-import { useMemo, useCallback } from 'react';
+import { useMemo, useCallback, useEffect } from 'react';
 
 // Download Button Component
 function DownloadButton() {
@@ -57,13 +57,33 @@ function DownloadButton() {
   );
 }
 
+// Component to handle panning to matched node (must be inside ReactFlow)
+function PanToNode({ matchedNodeId }) {
+  const { getNode, setCenter } = useReactFlow();
+
+  useEffect(() => {
+    if (matchedNodeId) {
+      const node = getNode(matchedNodeId);
+      if (node) {
+        // Pan to center the matched node with smooth animation
+        const x = node.position.x + (node.width || 150) / 2;
+        const y = node.position.y + (node.height || 80) / 2;
+        setCenter(x, y, { duration: 800, zoom: 1 });
+      }
+    }
+  }, [matchedNodeId, getNode, setCenter]);
+
+  return null;
+}
+
 function TreeVisualization({ 
   nodes, 
   edges, 
   onNodesChange, 
   onEdgesChange, 
   onNodeClick, 
-  hasGenerated 
+  hasGenerated,
+  matchedNodeId 
 }) {
   // Create custom node types with JSX
   const nodesWithLabels = useMemo(() => {
@@ -92,6 +112,7 @@ function TreeVisualization({
         >
           <Background />
           <Controls />
+          <PanToNode matchedNodeId={matchedNodeId} />
           <Panel position="top-left" className="info-panel">
             <Legend />
           </Panel>
