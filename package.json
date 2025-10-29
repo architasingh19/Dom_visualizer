@@ -4,7 +4,14 @@
   "version": "1.0.0",
   "type": "module",
   "description": "An interactive JSON Tree Visualizer with search and highlighting functionality built with React and React Flow",
-  "keywords": ["json", "tree", "visualizer", "react", "react-flow", "interactive"],
+  "keywords": [
+    "json",
+    "tree",
+    "visualizer",
+    "react",
+    "react-flow",
+    "interactive"
+  ],
   "author": "APIWIZ Frontend Developer",
   "license": "MIT",
   "scripts": {
@@ -14,6 +21,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "html-to-image": "^1.11.13",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "reactflow": "^11.11.4"
