@@ -12,6 +12,7 @@ function App() {
   const [jsonInput, setJsonInput] = useState(JSON.stringify(SAMPLE_JSON, null, 2));
   const [searchPath, setSearchPath] = useState('');
   const [searchMessage, setSearchMessage] = useState('');
+  const [matchedNodeId, setMatchedNodeId] = useState(null);
   
   const { isDarkMode, toggleTheme } = useTheme();
   const { 
@@ -28,6 +29,7 @@ function App() {
   // Generate tree visualization
   const handleGenerateTree = useCallback(() => {
     setSearchMessage('');
+    setMatchedNodeId(null);
     generateTree(jsonInput);
   }, [jsonInput, generateTree]);
 
@@ -35,6 +37,7 @@ function App() {
   const handleSearch = useCallback(() => {
     if (!searchPath.trim()) {
       setSearchMessage('Please enter a search path');
+      setMatchedNodeId(null);
       return;
     }
 
@@ -44,11 +47,14 @@ function App() {
       const matchedNode = result.nodes.find(node => node.data.path === searchPath);
       if (matchedNode) {
         setSearchMessage('Match found');
+        setMatchedNodeId(matchedNode.id);
       } else {
         setSearchMessage('No match found');
+        setMatchedNodeId(null);
       }
     } else {
       setSearchMessage('Error searching');
+      setMatchedNodeId(null);
     }
   }, [searchPath, jsonInput, generateTree]);
 
@@ -58,6 +64,7 @@ function App() {
     clearTree();
     setSearchPath('');
     setSearchMessage('');
+    setMatchedNodeId(null);
   };
 
   // Load sample JSON
@@ -105,6 +112,7 @@ function App() {
             onEdgesChange={onEdgesChange}
             onNodeClick={handleNodeClick}
             hasGenerated={hasGenerated}
+            matchedNodeId={matchedNodeId}
           />
         </div>
       </div>

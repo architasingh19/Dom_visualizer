@@ -59,10 +59,12 @@ export const jsonToTree = (obj, parentId = null, key = 'root', path = '$', highl
       backgroundColor,
       border: isHighlighted ? '3px solid #ec4899' : '2px solid #666',
       borderRadius: '8px',
-      padding: '10px',
-      minWidth: '100px',
+      padding: '12px 16px',
+      minWidth: '120px',
+      maxWidth: '200px',
       fontSize: '14px',
-      fontWeight: '500'
+      fontWeight: '500',
+      wordWrap: 'break-word'
     }
   });
 
@@ -116,8 +118,10 @@ export const jsonToTree = (obj, parentId = null, key = 'root', path = '$', highl
   return { nodes: newNodes, edges: newEdges };
 };
 
-// Layout the tree using hierarchical positioning
+// Layout the tree using improved hierarchical positioning
 export const layoutTree = (nodes, edges) => {
+  if (nodes.length === 0) return nodes;
+
   const nodeMap = new Map(nodes.map(node => [node.id, node]));
   const childrenMap = new Map();
   
@@ -133,37 +137,97 @@ export const layoutTree = (nodes, edges) => {
   const targetIds = new Set(edges.map(e => e.target));
   const rootNode = nodes.find(n => !targetIds.has(n.id)) || nodes[0];
 
-  const levelWidth = 200;
-  const levelHeight = 100;
+  // Configuration for spacing
+  const NODE_WIDTH = 180;  // Estimated node width
+  const NODE_HEIGHT = 120; // Vertical spacing between levels
+  const HORIZONTAL_SPACING = 40; // Minimum horizontal spacing between sibling nodes
+  const SIBLING_SPACING = NODE_WIDTH + HORIZONTAL_SPACING;
 
-  // Calculate positions using BFS
-  const positioned = new Set();
-  const queue = [{ id: rootNode.id, level: 0, position: 0 }];
+  // Calculate subtree widths (number of leaf descendants)
+  const subtreeWidths = new Map();
+  
+  const calculateSubtreeWidth = (nodeId) => {
+    if (subtreeWidths.has(nodeId)) {
+      return subtreeWidths.get(nodeId);
+    }
 
-  while (queue.length > 0) {
-    const { id, level, position } = queue.shift();
+    const children = childrenMap.get(nodeId) || [];
     
-    if (positioned.has(id)) continue;
-    positioned.add(id);
+    if (children.length === 0) {
+      subtreeWidths.set(nodeId, 1);
+      return 1;
+    }
 
-    const node = nodeMap.get(id);
-    if (!node) continue;
-
-    // Position node
-    node.position = {
-      x: position * levelWidth,
-      y: level * levelHeight
-    };
-
-    // Get children
-    const children = childrenMap.get(id) || [];
-    const childCount = children.length;
-    
-    children.forEach((childId, index) => {
-      const childPosition = position - (childCount - 1) / 2 + index;
-      queue.push({ id: childId, level: level + 1, position: childPosition });
+    let totalWidth = 0;
+    children.forEach(childId => {
+      totalWidth += calculateSubtreeWidth(childId);
     });
-  }
+
+    subtreeWidths.set(nodeId, totalWidth);
+    return totalWidth;
+  };
+
+  // Calculate subtree width for root
+  calculateSubtreeWidth(rootNode.id);
+
+  // Position nodes using post-order traversal
+  const positionNode = (nodeId, level, leftBoundary) => {
+    const children = childrenMap.get(nodeId) || [];
+    const node = nodeMap.get(nodeId);
+    
+    if (!node) return leftBoundary;
+
+    if (children.length === 0) {
+      // Leaf node - position at leftBoundary
+      node.position = {
+        x: leftBoundary,
+        y: level * NODE_HEIGHT
+      };
+      return leftBoundary + SIBLING_SPACING;
+    }
+
+    // Position children first
+    let currentX = leftBoundary;
+    const childPositions = [];
+
+    children.forEach(childId => {
+      const childNode = nodeMap.get(childId);
+      const childLevel = level + 1;
+      currentX = positionNode(childId, childLevel, currentX);
+      
+      if (childNode) {
+        childPositions.push(childNode.position.x);
+      }
+    });
+
+    // Position parent at the center of its children
+    if (childPositions.length > 0) {
+      const leftmostChild = childPositions[0];
+      const rightmostChild = childPositions[childPositions.length - 1];
+      const centerX = (leftmostChild + rightmostChild) / 2;
+
+      node.position = {
+        x: centerX,
+        y: level * NODE_HEIGHT
+      };
+    }
+
+    return currentX;
+  };
+
+  // Start positioning from root at level 0
+  positionNode(rootNode.id, 0, 0);
+
+  // Center the entire tree
+  const xPositions = nodes.map(n => n.position.x);
+  const minX = Math.min(...xPositions);
+  const maxX = Math.max(...xPositions);
+  const treeWidth = maxX - minX;
+  const offsetX = -minX + 50; // Add some padding
+
+  nodes.forEach(node => {
+    node.position.x += offsetX;
+  });
 
   return nodes;
 };
