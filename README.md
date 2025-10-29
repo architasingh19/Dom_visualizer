@@ -63,6 +63,12 @@ Make sure you have these installed:
 - Fit entire tree to view with one click
 - Click any node to copy its path to clipboard
 
+**Download Tree as Image**
+- Export your tree visualization as a PNG image
+- Click the download button in the top-right corner
+- High-quality image with proper theme colors
+- Perfect for documentation and sharing
+
 **Dark/Light Mode**
 - Beautiful toggle switch in the header
 - Smooth theme transitions
