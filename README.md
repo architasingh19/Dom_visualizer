@@ -34,8 +34,6 @@ Make sure you have these installed:
 
 ## Features
 
-### Core Features
-
 **JSON Input & Validation**
 - Paste or type any JSON data
 - Real-time validation with helpful error messages
@@ -66,13 +64,11 @@ Make sure you have these installed:
 **Download Tree as Image**
 - Export your tree visualization as a PNG image
 - Click the download button in the top-right corner
-- High-quality image with proper theme colors
-- Perfect for documentation and sharing
 
 **Dark/Light Mode**
-- Beautiful toggle switch in the header
+- Toggle switch in the header
 - Smooth theme transitions
-- Optimized colors for both modes
+
 
 **Copy JSON Paths**
 - Click any node to copy its JSON path
